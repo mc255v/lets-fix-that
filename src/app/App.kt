@@ -4,7 +4,7 @@ import kotlinx.html.js.onClickFunction
 import react.*
 import react.dom.*
 import moods.*
-import ticker.*
+import axios.*
 
 interface AppState : RState {
     var currentView: String
@@ -39,7 +39,7 @@ class App : RComponent<RProps, AppState>() {
                         }
                     }
                 }
-            "moodList" -> moodList()
+            "moodList" -> axiosSearch()
         }
     }
 }

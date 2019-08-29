@@ -47,15 +47,19 @@ external interface AxiosResponse<T> {
 }
 
 interface AxiosProps : RProps {
+    val mood: String
 }
 
 interface AxiosState : RState {
-    var mood: String
     var giphyResult: ArrayList<String>
     var errorMessage: String
+    var count: Int
+    var isLoading: Boolean
 }
 
-data class Giphy(val url: String)
+data class Giphy(val images: Images)
+data class Images(val original: ImagesUrl)
+data class ImagesUrl(val url: String)
 
 external interface GiphyData {
     val data: Array<Giphy>
@@ -63,26 +67,39 @@ external interface GiphyData {
 
 class AxiosSearch(props: AxiosProps) : RComponent<AxiosProps, AxiosState>(props) {
     override fun AxiosState.init(props: AxiosProps) {
-        mood = ""
         giphyResult = arrayListOf()
         errorMessage = ""
+        count = 0
+        isLoading = true
+    }
+
+    override fun componentDidMount() {
+//        var searchTerm: String = "happy"
+//        when(props.mood) {
+//            "happy" -> searchTerm = "middle%20finger"
+//            "sad" -> searchTerm = "you're%20awesome"
+//            "bored" -> searchTerm = "adventure"
+//            "tired" -> searchTerm = "energy"
+//        }
+//        searchGiphy(searchTerm)
     }
 
     private fun searchGiphy(phrase: String) {
         val config: AxiosConfigSettings = jsObject {
-            //add url
+            // enter url
             timeout = 3000
         }
 
         axios<GiphyData>(config).then { response ->
             val result: ArrayList<String> = ArrayList()
             for (item in response.data.data) {
-                result.add(item.url)
-                console.log(item.url)
+                result.add(item.images.original.url)
+                console.log(item.images.original.url)
             }
             setState {
                 giphyResult = result
                 errorMessage = ""
+                isLoading = false
             }
             console.log(result)
             console.log(response.data.data)
@@ -99,7 +116,6 @@ class AxiosSearch(props: AxiosProps) : RComponent<AxiosProps, AxiosState>(props)
     }
 
     override fun RBuilder.render() {
-        val infoText = "Enter a valid US ZIP code below"
         div {
             p { +"infoText" }
             button {
@@ -110,20 +126,10 @@ class AxiosSearch(props: AxiosProps) : RComponent<AxiosProps, AxiosState>(props)
                 }
             }
             br {}
-//            h1 {
-//                +"${state.zipCode} ZIP code belongs to: "
-//                +"${state.zipResult.country} ${state.zipResult.state} ${state.zipResult.city} "
-//                if (!state.errorMessage.isEmpty()) div {
-//                    attrs.jsStyle = js {
-//                        color = "red"
-//                    }
-//                    +"Error while searching for ZIP code: "
-//                    +state.errorMessage
-//                }
-//            }
+            if (!state.isLoading) img(alt = "animated gif", src = state.giphyResult[state.count]){}
         }
     }
 }
 
-fun RBuilder.axiosSearch() = child(AxiosSearch::class) {
+fun RBuilder.axiosSearch(mood: String) = child(AxiosSearch::class) {
 }

@@ -1,5 +1,6 @@
 package moods
 
+import kotlinx.html.js.onClickFunction
 import react.*
 import react.dom.*
 
@@ -12,7 +13,7 @@ external val bored: dynamic
 @JsModule("src/img/tired.jpg")
 external val tired: dynamic
 
-fun RBuilder.moodList() {
+fun RBuilder.moodList(onClick: (String, String) -> Unit) {
     section("projects-section bg-light") {
         div("project-text w-100 my-auto text-center"){
             h1("title"){+"How are you feeling today?"}
@@ -20,6 +21,11 @@ fun RBuilder.moodList() {
         div("container") {
 //            <!-- Happy Row -->
             div("mood row justify-content-center no-gutters mb-5 mb-lg-0") {
+                attrs {
+                    onClickFunction = {
+                        onClick("change", "happy")
+                    }
+                }
                 div("col-lg-6") {
                     img(alt = "Man Smiling", src = "$happy", classes = "img-fluid") {}
                 }
@@ -40,6 +46,11 @@ fun RBuilder.moodList() {
 
 //            <!-- Sad Row -->
             div("mood row justify-content-center no-gutters") {
+                attrs {
+                    onClickFunction = {
+                        onClick("change", "sad")
+                    }
+                }
                 div("col-lg-6") {
                     img(alt = "Sad Woman", src = "$sad", classes = "img-fluid") {}
                 }
@@ -60,6 +71,11 @@ fun RBuilder.moodList() {
 
             //            <!-- Bored Row -->
             div("mood row justify-content-center no-gutters mb-5 mb-lg-0") {
+                attrs {
+                    onClickFunction = {
+                        onClick("change", "bored")
+                    }
+                }
                 div("col-lg-6") {
                     img(alt = "Bored Dog", src = "$bored", classes = "img-fluid") {}
                 }
@@ -80,8 +96,13 @@ fun RBuilder.moodList() {
 
             //            <!-- Tired Row -->
             div("mood row justify-content-center no-gutters") {
+                attrs {
+                    onClickFunction = {
+                        onClick("change", "tired")
+                    }
+                }
                 div("col-lg-6") {
-                    img(alt = "Tied Kid", src = "$tired", classes = "img-fluid") {}
+                    img(alt = "Tired Kid", src = "$tired", classes = "img-fluid") {}
                 }
                 div("col-lg-6 order-lg-first") {
                     div("bg-black text-center h-100 project") {

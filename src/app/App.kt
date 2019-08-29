@@ -8,16 +8,19 @@ import axios.*
 
 interface AppState : RState {
     var currentView: String
+    var currentMood: String
 }
 
 class App : RComponent<RProps, AppState>() {
     override fun AppState.init() {
         currentView = "home"
+        currentMood = ""
     }
 
-    fun onClick() {
+    fun onClick(view: String, mood: String) {
         setState {
-            currentView = "moodList"
+            currentView = view
+            currentMood = mood
         }
     }
 
@@ -32,14 +35,15 @@ class App : RComponent<RProps, AppState>() {
                                 +"Get Started"
                                 attrs {
                                     onClickFunction = {
-                                        onClick()
+                                        onClick("moodList", "")
                                     }
                                 }
                             }
                         }
                     }
                 }
-            "moodList" -> axiosSearch()
+            "moodList" -> moodList(::onClick)
+            "change" -> axiosSearch(state.currentMood)
         }
     }
 }

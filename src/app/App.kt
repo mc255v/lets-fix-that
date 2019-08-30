@@ -43,7 +43,7 @@ class App : RComponent<RProps, AppState>() {
                     }
                 }
             "moodList" -> moodList(::onClick)
-            "change" -> axiosSearch(state.currentMood)
+            "change" -> axiosSearch(state.currentMood, ::onClick)
         }
     }
 }

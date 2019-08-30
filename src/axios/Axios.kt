@@ -47,7 +47,8 @@ external interface AxiosResponse<T> {
 }
 
 interface AxiosProps : RProps {
-    val mood: String
+    var mood: String
+    var onClick: (String, String) -> Unit
 }
 
 interface AxiosState : RState {
@@ -74,19 +75,19 @@ class AxiosSearch(props: AxiosProps) : RComponent<AxiosProps, AxiosState>(props)
     }
 
     override fun componentDidMount() {
-//        var searchTerm: String = "happy"
-//        when(props.mood) {
-//            "happy" -> searchTerm = "middle%20finger"
-//            "sad" -> searchTerm = "you're%20awesome"
-//            "bored" -> searchTerm = "adventure"
-//            "tired" -> searchTerm = "energy"
-//        }
-//        searchGiphy(searchTerm)
+        var searchTerm: String = "oops"
+        when(props.mood) {
+            "happy" -> searchTerm = "middle%20finger"
+            "sad" -> searchTerm = "you're%20awesome"
+            "bored" -> searchTerm = "adventure"
+            "tired" -> searchTerm = "energy"
+        }
+        searchGiphy(searchTerm)
     }
 
     private fun searchGiphy(phrase: String) {
         val config: AxiosConfigSettings = jsObject {
-            // enter url
+            //enter url
             timeout = 3000
         }
 
@@ -111,25 +112,84 @@ class AxiosSearch(props: AxiosProps) : RComponent<AxiosProps, AxiosState>(props)
         }
     }
 
-    private fun handleChange() {
-        searchGiphy("happy")
+    private fun anotherGif() {
+        if (state.count < 9) setState{
+            count += 1
+        } else {
+            setState {
+                count = 0
+            }
+        }
     }
 
     override fun RBuilder.render() {
-        div {
-            p { +"infoText" }
-            button {
-                attrs {
-                    onClickFunction = {
-                        handleChange()
+
+//        <!-- Signup Section -->
+        section("signup-section") {
+            div("container") {
+                div("row") {
+                    div("col-md-10 col-lg-10 mx-auto text-center") {
+                        div("change-title") {
+                            h1("text-white mb-5") { +"So you are feeling ${props.mood}?" }
+                        }
+                        div {
+                            if (!state.isLoading) img(alt = "animated gif", src = state.giphyResult[state.count], classes = "giphy"){}
+                        }
                     }
                 }
             }
-            br {}
-            if (!state.isLoading) img(alt = "animated gif", src = state.giphyResult[state.count]){}
+        }
+
+//        <!-- Contact Section -->
+        section("contact-section bg-black") {
+            div("container") {
+                div("row justify-content-center") {
+                    div("change-btn col-md-4 mb-3 mb-md-0") {
+                        attrs {
+                            onClickFunction = {
+                                anotherGif()
+                            }
+                        }
+                        div("card py-4 h-100") {
+                            div("card-body text-center") {
+                                i("fas fa-map-marked-alt text-primary mb-2") {}
+                                h4("text-uppercase m-0") { +"Nope, still ${props.mood}" }
+                                hr("my-4") {}
+                                div("small text-black-50") {
+                                    +"Maybe another"
+                                }
+                            }
+                        }
+                    }
+                    div("change-btn col-md-4 mb-3 mb-md-0") {
+                        attrs {
+                            onClickFunction = {
+                                props.onClick("home", "")
+                            }
+                        }
+                        div("card py-4 h-100") {
+                            div("card-body text-center") {
+                                i("fas fa-envelope text-primary mb-2") {}
+                                h4("text-uppercase m-0") { +"Thanks! You fixed it!" }
+                                hr("my-4") {}
+                                div("small text-black-50") {
+                                    when(props.mood) {
+                                        "happy" -> +"Now I feel like shit"
+                                        "sad" -> +"Now I'm happy as can be!"
+                                        "bored" -> +"Bored no more!"
+                                        "tired" -> +"The energy flows through me!"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     }
 }
 
-fun RBuilder.axiosSearch(mood: String) = child(AxiosSearch::class) {
+fun RBuilder.axiosSearch(mood: String, onClick: (String, String) -> Unit) = child(AxiosSearch::class) {
+    attrs.mood = mood
+    attrs.onClick = onClick
 }

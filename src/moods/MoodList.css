@@ -32,7 +32,7 @@
 .mood:hover {
     opacity: 0.8;
     background-color: #ffa;
-
+    cursor: pointer;
     -webkit-transition: all 0.5s linear;
     transition: all 0.5s linear;
 }

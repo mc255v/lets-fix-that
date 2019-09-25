@@ -1,56 +1,18 @@
+# Let's Fix That
+
+This is an app built during my time at Code Chrysalis where we have roughly 4 days to learn a new programming language and build an MVP.
+
+This is intended to be a fun web application where the user gets started by choosing their current emotional state and is greeted with a gif in an attempt to humorously impact their current mood. If the user feels no impact they can see the next gif until an impact is reached and return back to the landing page to begin the experience again.
+
+## Tech Used
+
+This app was made entirely in Kotlin utilizing React, Bootstrap, and Axios for API calls
+
+## Usage
+
 This project was bootstrapped with [Create React Kotlin App](https://github.com/JetBrains/create-react-kotlin-app).
 
 Below you will find some useful information on how to work with this application.<br>
-We're still working on this guide and you can find its most recent version [here](https://github.com/JetBrains/create-react-kotlin-app/blob/master/packages/react-scripts/template/README.md).
-
-## Sending Feedback
-
-We are always open to [your feedback](https://youtrack.jetbrains.com/issues/CRKA).
-
-## Folder Structure
-
-After creation, your project should look like this:
-
-```
-my-app/
-  README.md
-  node_modules/
-  package.json
-  .gitignore
-  public/
-    favicon.ico
-    index.html
-    manifest.json
-  src/
-    app/
-      App.css
-      App.kt
-    index/
-      index.css
-      index.kt
-    logo/
-      kotlin.svg
-      Logo.css
-      Logo.kt
-      react.svg
-    ticker/
-      Ticker.kt
-```
-
-For the project to build, **these files must exist with exact filenames**:
-
-* `public/index.html` is the page template;
-
-You can delete or rename the other files.
-
-You may create subdirectories inside `src`. For faster rebuilds, only files inside `src` are processed by Webpack.<br>
-You need to **put any Kotlin and CSS files inside `src`**, or Webpack won’t see them.
-
-Only files inside `public` can be used from `public/index.html`.<br>
-Read instructions below for using assets from JavaScript and HTML.
-
-You can, however, create more top-level directories.<br>
-They will not be included in the production build so you can use them for things like documentation.
 
 ## Available Scripts
 
